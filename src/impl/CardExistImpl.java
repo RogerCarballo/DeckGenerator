@@ -21,7 +21,7 @@ public class CardExistImpl implements ICard {
 
 	private static CardExistImpl cardExist;
 	final String driver = "org.exist.xmldb.DatabaseImpl";
-	private static String URI = "xmldb:exist://localhost:8888/exist/xmlrpc/db/Cards";
+	private static String URI = "xmldb:exist://localhost:8888/exist/xmlrpc/db/Card";
 	private Database database;
 	Collection col;
 	XMLResource res;

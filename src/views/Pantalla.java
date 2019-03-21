@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,11 +14,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import controller.ControllerLogic;
+import model.Card;
+
 public class Pantalla extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField textMazo;
-	private JButton btnGuardarMazo, btnCargarCartas, buttonPasar, buttonDevolver, btnGenerarMazo,btnCargarMazo ;
+	private JButton btnGuardarMazo, btnCargarCartas, buttonPasar, buttonDevolver, btnGenerarMazo, btnCargarMazo;
+	private JList<Card> listCartas, list;
+	private ControllerLogic cLogic;
+	DefaultListModel<Card> modeloCarta,modeloMazo;
 
 	/**
 	 * Launch the application.
@@ -38,17 +45,18 @@ public class Pantalla extends JFrame implements ActionListener {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-
+		modeloCarta = new DefaultListModel<Card>();
+		modeloMazo = new DefaultListModel<Card>();
 		buttonPasar = new JButton(">");
 		buttonPasar.setBounds(420, 221, 45, 23);
 
 		buttonDevolver = new JButton("<");
 		buttonDevolver.setBounds(420, 255, 45, 23);
 
-		JList listCartas = new JList();
+		listCartas = new JList();
 		listCartas.setBounds(15, 47, 347, 455);
 
-		JList list = new JList();
+		list = new JList();
 		list.setBounds(527, 47, 349, 456);
 
 		JLabel lblCartas = new JLabel("CARTAS");
@@ -87,21 +95,26 @@ public class Pantalla extends JFrame implements ActionListener {
 		btnCargarMazo.setBounds(372, 458, 145, 23);
 		contentPane.add(btnCargarMazo);
 		btnCargarCartas.addActionListener(this);
+		buttonPasar.addActionListener(this);
+		buttonDevolver.addActionListener(this);
+		cLogic = new ControllerLogic();
 
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == btnCargarCartas) {
+		if (e.getSource() == btnCargarCartas) {
 			
-		}else if(e.getSource() == buttonDevolver) {
+			
+			cLogic.loadCards(listCartas,modeloCarta);
+		} else if (e.getSource() == buttonDevolver) {
+			cLogic.deleteCardDeck(listCartas, list, modeloMazo, modeloCarta);
+		} else if (e.getSource() == buttonPasar) {
+			cLogic.chooseCard(listCartas, list,modeloMazo,modeloCarta);
+		} else if (e.getSource() == btnGenerarMazo) {
 
-		}else if(e.getSource() == buttonPasar) {
+		} else if (e.getSource() == btnGuardarMazo) {
 
-		}else if (e.getSource() == btnGenerarMazo) {
-
-		}else if(e.getSource() == btnGuardarMazo) {
-
-		}else if(e.getSource() == btnCargarMazo) {
+		} else if (e.getSource() == btnCargarMazo) {
 
 		}
 

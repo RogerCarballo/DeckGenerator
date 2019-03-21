@@ -21,7 +21,7 @@ public class CardExistImpl implements ICard {
 
 	private static CardExistImpl cardExist;
 	final String driver = "org.exist.xmldb.DatabaseImpl";
-	private static String URI = "xmldb:exist://localhost:8888/exist/xmlrpc/db/Card";
+	private static String URI = "xmldb:exist://localhost:8888/exist/xmlrpc/db/Cards";
 	private Database database;
 	Collection col;
 	XMLResource res;
@@ -47,9 +47,9 @@ public class CardExistImpl implements ICard {
 			Collection col = DatabaseManager.getCollection(URI);
 			res = (XMLResource) col.getResource("cards.xml");
 			JSONObject xmlJSONObj = XML.toJSONObject((String) res.getContent());
-
+			
 			JSONArray allCards = xmlJSONObj.getJSONObject("cards").getJSONArray("card");
-			System.out.println(allCards.toString());
+//			System.out.println(allCards.toString());
 			for (Object object : allCards) {
 				Card carta = new Gson().fromJson(object.toString(), Card.class);
 				cards.add(carta);
@@ -77,13 +77,13 @@ public class CardExistImpl implements ICard {
 	}
 
 	public Card getCard(int id) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
-
+	
+	//TEST
 	public static void main(String[] args) {
 		CardExistImpl cardImpl = CardExistImpl.getInstance();
-		
 		System.out.println(cardImpl.getCards());
 	}
 

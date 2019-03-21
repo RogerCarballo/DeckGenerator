@@ -70,4 +70,11 @@
    <defense>2</defense>
    <value>1</value>
  </card>
+ <card id="13">
+   <name>Marc</name>
+   <summonCost>99999</summonCost>
+   <attack>69</attack>
+   <defense>-3</defense>
+   <value>999</value>
+ </card>
 </cards>

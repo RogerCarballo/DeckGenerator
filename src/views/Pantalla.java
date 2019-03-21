@@ -13,10 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class Pantalla extends JFrame {
+public class Pantalla extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField textMazo;
+	private JButton btnGuardarMazo, btnCargarCartas, buttonPasar, buttonDevolver, btnGenerarMazo,btnCargarMazo ;
 
 	/**
 	 * Launch the application.
@@ -38,10 +39,10 @@ public class Pantalla extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
-		JButton buttonPasar = new JButton(">");
+		buttonPasar = new JButton(">");
 		buttonPasar.setBounds(420, 221, 45, 23);
 
-		JButton buttonDevolver = new JButton("<");
+		buttonDevolver = new JButton("<");
 		buttonDevolver.setBounds(420, 255, 45, 23);
 
 		JList listCartas = new JList();
@@ -58,13 +59,13 @@ public class Pantalla extends JFrame {
 		lblMazo.setBounds(675, 11, 52, 25);
 		lblMazo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 
-		JButton btnGenerarMazo = new JButton("Generar Mazo");
+		btnGenerarMazo = new JButton("Generar Mazo");
 		btnGenerarMazo.setBounds(372, 360, 145, 23);
 
-		JButton btnCargarCartas = new JButton("Cargar Cartas");
+		btnCargarCartas = new JButton("Cargar Cartas");
 		btnCargarCartas.setBounds(372, 99, 145, 23);
 
-		JButton btnGuardarMazo = new JButton("Guardar Mazo");
+		btnGuardarMazo = new JButton("Guardar Mazo");
 		btnGuardarMazo.setBounds(372, 326, 145, 23);
 		contentPane.setLayout(null);
 		contentPane.add(listCartas);
@@ -82,18 +83,27 @@ public class Pantalla extends JFrame {
 		contentPane.add(textMazo);
 		textMazo.setColumns(10);
 
-		JButton btnCargarMazo = new JButton("Cargar Mazo");
+		btnCargarMazo = new JButton("Cargar Mazo");
 		btnCargarMazo.setBounds(372, 458, 145, 23);
 		contentPane.add(btnCargarMazo);
-		
-		btnCargarCartas.addActionListener(new ActionListener() {
-			
-			
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		btnCargarCartas.addActionListener(this);
+
 	}
 
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnCargarCartas) {
+			
+		}else if(e.getSource() == buttonDevolver) {
+
+		}else if(e.getSource() == buttonPasar) {
+
+		}else if (e.getSource() == btnGenerarMazo) {
+
+		}else if(e.getSource() == btnGuardarMazo) {
+
+		}else if(e.getSource() == btnCargarMazo) {
+
+		}
+
+	}
 }

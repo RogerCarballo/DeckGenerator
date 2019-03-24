@@ -35,8 +35,7 @@ public class Card {
 
 	@Override
 	public String toString() {
-		return "Card [id=" + id + ", nombre=" + name + ", coste=" + summonCost + ", ataque=" + attack + ", defensa="
-				+ defense + ", valor=" + value + "]";
+		return "name=" + name + ", COST:" + summonCost + ", ATQ:" + attack + ", DEF:" + defense + ", VAL:" + value + "";
 	}
 
 }

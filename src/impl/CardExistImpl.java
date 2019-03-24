@@ -25,7 +25,7 @@ public class CardExistImpl implements ICard {
 	private Database database;
 	Collection col;
 	XMLResource res;
-	Class cl;
+	Class<?> cl;
 	private List<Card> cards = new ArrayList<Card>();
 
 	private void connect() {

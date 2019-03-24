@@ -4,38 +4,37 @@ import java.util.List;
 
 public class Deck {
 
-	private String nombre;
-	private int valueDeck;
-	private List<Card> deck;
-	
-	
+	private String deckName;
+	private int deckValue;
+	private List<Card> cards;
+
 	public String getNombre() {
-		return nombre;
+		return deckName;
 	}
-	
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+
+	public void setNombre(String deckName) {
+		this.deckName = deckName;
 	}
-	
+
 	public int getValueDeck() {
-		return valueDeck;
+		return deckValue;
 	}
-	
+
 	public void setValueDeck(int valueDeck) {
-		this.valueDeck = valueDeck;
+		this.deckValue = valueDeck;
 	}
-	
+
 	public List<Card> getDeck() {
-		return deck;
+		return cards;
 	}
-	
-	public void setDeck(List<Card> deck) {
-		this.deck = deck;
+
+	public void setDeck(List<Card> cards) {
+		this.cards = cards;
 	}
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Deck [nombre=" + deckName + ", valueDeck=" + deckValue + ", cards=" + cards + "]";
+	}
+
 }

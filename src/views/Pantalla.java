@@ -1,6 +1,5 @@
 package views;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +23,8 @@ public class Pantalla extends JFrame implements ActionListener {
 	private JButton btnGuardarMazo, btnCargarCartas, buttonPasar, buttonDevolver, btnGenerarMazo, btnCargarMazo;
 	private JList<Card> listCartas, list;
 	private ControllerLogic cLogic;
-	DefaultListModel<Card> modeloCarta,modeloMazo;
+	DefaultListModel<Card> modeloCarta, modeloMazo;
+	public static boolean mazoCargado = false;
 
 	/**
 	 * Launch the application.
@@ -97,25 +97,30 @@ public class Pantalla extends JFrame implements ActionListener {
 		btnCargarCartas.addActionListener(this);
 		buttonPasar.addActionListener(this);
 		buttonDevolver.addActionListener(this);
+		btnGenerarMazo.addActionListener(this);
+		btnGuardarMazo.addActionListener(this);
+		btnCargarMazo.addActionListener(this);
 		cLogic = new ControllerLogic();
 
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnCargarCartas) {
-			
-			
-			cLogic.loadCards(listCartas,modeloCarta);
+			cLogic.loadCards(listCartas, modeloCarta);
 		} else if (e.getSource() == buttonDevolver) {
 			cLogic.deleteCardDeck(listCartas, list, modeloMazo, modeloCarta);
 		} else if (e.getSource() == buttonPasar) {
-			cLogic.chooseCard(listCartas, list,modeloMazo,modeloCarta);
+			cLogic.chooseCard(listCartas, list, modeloMazo, modeloCarta);
 		} else if (e.getSource() == btnGenerarMazo) {
-
+			cLogic.randomDeck(listCartas, list, modeloMazo, modeloCarta);
 		} else if (e.getSource() == btnGuardarMazo) {
-
+			cLogic.addDeck(listCartas, list, modeloMazo, modeloCarta, textMazo.getText());
+			mazoCargado = false;
+			if (!mazoCargado)
+				textMazo.setText("");
 		} else if (e.getSource() == btnCargarMazo) {
-
+			cLogic.loadDeck(list, modeloMazo, textMazo.getText());
+			mazoCargado = true;
 		}
 
 	}

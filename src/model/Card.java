@@ -13,23 +13,23 @@ public class Card {
 		return id;
 	}
 
-	public String getNombre() {
+	public String getName() {
 		return name;
 	}
 
-	public int getCoste() {
+	public int getsummonCost() {
 		return summonCost;
 	}
 
-	public int getAtaque() {
+	public int getAttack() {
 		return attack;
 	}
 
-	public int getDefensa() {
+	public int getDefense() {
 		return defense;
 	}
 
-	public int getValor() {
+	public int getValue() {
 		return value;
 	}
 

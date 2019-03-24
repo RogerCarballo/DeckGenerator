@@ -8,7 +8,7 @@ public class Deck {
 	private int deckValue;
 	private List<Card> cards;
 
-	public String getNombre() {
+	public String getDeckName() {
 		return deckName;
 	}
 
@@ -16,7 +16,7 @@ public class Deck {
 		this.deckName = deckName;
 	}
 
-	public int getValueDeck() {
+	public int getDeckValue() {
 		return deckValue;
 	}
 
@@ -24,7 +24,7 @@ public class Deck {
 		this.deckValue = valueDeck;
 	}
 
-	public List<Card> getDeck() {
+	public List<Card> getCards() {
 		return cards;
 	}
 

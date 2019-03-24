@@ -80,15 +80,15 @@ public class DeckMongoImpl implements IDeck {
 		deck.toString();
 		List<Object> cardDeck = new BasicDBList();
 		Document doc = new Document();
-		doc.put("deckName", deck.getNombre());
-		for (int i = 0; i < deck.getDeck().size(); i++) {
+		doc.put("deckName", deck.getDeckName());
+		for (int i = 0; i < deck.getCards().size(); i++) {
 			DBObject object = new BasicDBObject();
-			object.put("id", deck.getDeck().get(i).getId());
-			object.put("name", deck.getDeck().get(i).getNombre());
-			object.put("summonCost", deck.getDeck().get(i).getCoste());
-			object.put("attack", deck.getDeck().get(i).getAtaque());
-			object.put("defense", deck.getDeck().get(i).getDefensa());
-			object.put("value", deck.getDeck().get(i).getValor());
+			object.put("id", deck.getCards().get(i).getId());
+			object.put("name", deck.getCards().get(i).getName());
+			object.put("summonCost", deck.getCards().get(i).getsummonCost());
+			object.put("attack", deck.getCards().get(i).getAttack());
+			object.put("defense", deck.getCards().get(i).getDefense());
+			object.put("value", deck.getCards().get(i).getValue());
 			cardDeck.add(object);
 		}
 
@@ -99,7 +99,7 @@ public class DeckMongoImpl implements IDeck {
 	}
 
 	public void updateDeck(Deck deck) {
-		Document document = coleccion.find(Filters.eq("deckName", deck.getNombre())).first();
+		Document document = coleccion.find(Filters.eq("deckName", deck.getDeckName())).first();
 		ObjectMapper mapper = new ObjectMapper();
 		
 		boolean saved=false;
@@ -111,7 +111,7 @@ public class DeckMongoImpl implements IDeck {
 				e.printStackTrace();
 			}
             Document userDoc = Document.parse(userJson);
-			coleccion.findOneAndReplace(Filters.eq("deckName", deck.getNombre()), userDoc);
+			coleccion.findOneAndReplace(Filters.eq("deckName", deck.getDeckName()), userDoc);
 			saved=true;
 		}
 	}

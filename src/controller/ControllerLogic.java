@@ -36,9 +36,9 @@ public class ControllerLogic {
 	public void chooseCard(JList<Card> listaCartas, JList<Card> listaMazo, DefaultListModel<Card> modeloMazo,
 			DefaultListModel<Card> modeloCarta) {
 		if (modeloCarta.getSize() != 0) {
-			if (valorIni + listaCartas.getSelectedValue().getValor() <= 20) {
+			if (valorIni + listaCartas.getSelectedValue().getValue() <= 20) {
 
-				valorIni = valorIni + listaCartas.getSelectedValue().getValor();
+				valorIni = valorIni + listaCartas.getSelectedValue().getValue();
 				modeloMazo.addElement(listaCartas.getSelectedValue());
 				modeloCarta.removeElementAt(listaCartas.getSelectedIndex());
 				listaMazo.setModel(modeloMazo);
@@ -49,7 +49,7 @@ public class ControllerLogic {
 	public void deleteCardDeck(JList<Card> listaCartas, JList<Card> listaMazo, DefaultListModel<Card> modeloMazo,
 			DefaultListModel<Card> modeloCarta) {
 		if (modeloMazo.getSize() != 0) {
-			valorIni = valorIni - listaMazo.getSelectedValue().getValor();
+			valorIni = valorIni - listaMazo.getSelectedValue().getValue();
 			modeloCarta.addElement(listaMazo.getSelectedValue());
 			modeloMazo.removeElementAt(listaMazo.getSelectedIndex());
 			listaCartas.setModel(modeloCarta);
@@ -68,15 +68,15 @@ public class ControllerLogic {
 			while (valorIni <= 20) {
 				random = (int) (Math.random() * modeloCarta.size() + 1) - 1;
 				System.out.println(random);
-				if (valorIni + listaCartas.getModel().getElementAt(random).getValor() <= 20) {
+				if (valorIni + listaCartas.getModel().getElementAt(random).getValue() <= 20) {
 					modeloMazo.addElement(listaCartas.getModel().getElementAt(random));
-					valorIni = valorIni + listaCartas.getModel().getElementAt(random).getValor();
+					valorIni = valorIni + listaCartas.getModel().getElementAt(random).getValue();
 					modeloCarta.removeElementAt(random);
 				} else {
-					valorIni = valorIni + listaCartas.getModel().getElementAt(random).getValor();
+					valorIni = valorIni + listaCartas.getModel().getElementAt(random).getValue();
 				}
 			}
-			valorIni = valorIni - listaCartas.getModel().getElementAt(random).getValor();
+			valorIni = valorIni - listaCartas.getModel().getElementAt(random).getValue();
 			System.out.println("Valor mazo: " + valorIni);
 			listaMazo.setModel(modeloMazo);
 		}
@@ -139,8 +139,8 @@ public class ControllerLogic {
 		if (comprobarSiExiste(name)) {
 			mongo = DeckMongoImpl.getInstance();
 			Deck deck = mongo.getDeckByName(name);
-			for (int i = 0; i < deck.getDeck().size(); i++) {
-				modeloMazo.addElement(deck.getDeck().get(i));
+			for (int i = 0; i < deck.getCards().size(); i++) {
+				modeloMazo.addElement(deck.getCards().get(i));
 			}
 			listaMazo.setModel(modeloMazo);
 			System.out.println();

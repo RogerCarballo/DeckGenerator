@@ -77,7 +77,6 @@ public class ControllerLogic {
 				}
 			}
 			valorIni = valorIni - listaCartas.getModel().getElementAt(random).getValue();
-			System.out.println("Valor mazo: " + valorIni);
 			listaMazo.setModel(modeloMazo);
 		}
 	}
@@ -101,7 +100,7 @@ public class ControllerLogic {
 					loadCards(listaCartas, modeloCarta);
 					mongo = DeckMongoImpl.getInstance();
 					mongo.insertDeck(mazo);
-					JOptionPane.showMessageDialog(null, "MAZO CREADO", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Deck " + nombreMazo + " creado correctamente");
 				} else {
 					JOptionPane.showMessageDialog(null, "Ya existe el nombre del mazo", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -120,6 +119,9 @@ public class ControllerLogic {
 			mazo.setDeck(cartas);
 			mazo.setValueDeck(valorIni);
 			mongo.updateDeck(mazo);
+			modeloMazo.clear();
+			loadCards(listaCartas, modeloCarta);
+			JOptionPane.showMessageDialog(null, "Deck " + deckName + " actualizado correctamente");
 
 		}
 	}
@@ -143,9 +145,10 @@ public class ControllerLogic {
 				modeloMazo.addElement(deck.getCards().get(i));
 			}
 			listaMazo.setModel(modeloMazo);
-			System.out.println();
-			valorIni= deck.getValueDeck();
-			System.out.println("Mazo cargado " + valorIni);
+			valorIni = deck.getDeckValue();
+			JOptionPane.showMessageDialog(null, "Deck " + name + " cargado");
+		} else {
+			JOptionPane.showMessageDialog(null, "El mazo no existe", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		;
 	};

@@ -92,7 +92,7 @@ public class DeckMongoImpl implements IDeck {
 			cardDeck.add(object);
 		}
 
-		doc.put("deckValue", deck.getValueDeck());
+		doc.put("deckValue", deck.getDeckValue());
 		doc.put("cards", cardDeck);
 		coleccion.insertOne(doc);
 

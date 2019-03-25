@@ -106,7 +106,7 @@ public class Pantalla extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnCargarCartas) {
-			cLogic.loadCards(listCartas, modeloCarta);
+			cLogic.loadCards(listCartas, modeloCarta,modeloMazo);
 		} else if (e.getSource() == buttonDevolver) {
 			cLogic.deleteCardDeck(listCartas, list, modeloMazo, modeloCarta);
 		} else if (e.getSource() == buttonPasar) {
@@ -119,7 +119,7 @@ public class Pantalla extends JFrame implements ActionListener {
 			if (!mazoCargado)
 				textMazo.setText("");
 		} else if (e.getSource() == btnCargarMazo) {
-			cLogic.loadDeck(list, modeloMazo, textMazo.getText());
+			cLogic.loadDeck(listCartas,list,modeloMazo, textMazo.getText(),modeloCarta);
 			mazoCargado = true;
 		}
 

@@ -45,7 +45,7 @@ public class CardExistImpl implements ICard {
 		connect();
 		try {
 			Collection col = DatabaseManager.getCollection(URI);
-			res = (XMLResource) col.getResource("cards.xml");
+			res = (XMLResource) col.getResource("card_collection.xml");
 			JSONObject xmlJSONObj = XML.toJSONObject((String) res.getContent());
 			
 			JSONArray allCards = xmlJSONObj.getJSONObject("cards").getJSONArray("card");

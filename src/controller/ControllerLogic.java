@@ -21,8 +21,10 @@ public class ControllerLogic {
 	boolean generateRandom = false;
 	boolean existeMazo = false;
 
-	public void loadCards(JList<Card> listCartas, DefaultListModel<Card> modeloCarta) {
+	public void loadCards(JList<Card> listCartas, DefaultListModel<Card> modeloCarta,
+			DefaultListModel<Card> modeloMazo) {
 		modeloCarta.clear();
+		modeloMazo.clear();
 		exist = CardExistImpl.getInstance();
 		if (modeloCarta.getSize() == 0) {
 			for (Card carta : exist.getCards()) {
@@ -54,7 +56,6 @@ public class ControllerLogic {
 			modeloMazo.removeElementAt(listaMazo.getSelectedIndex());
 			listaCartas.setModel(modeloCarta);
 		}
-		System.out.println("carta eliminada " + valorIni);
 	}
 
 	public void randomDeck(JList<Card> listaCartas, JList<Card> listaMazo, DefaultListModel<Card> modeloMazo,
@@ -63,7 +64,7 @@ public class ControllerLogic {
 		if (generateRandom) {
 			valorIni = 0;
 			modeloMazo.clear();
-			loadCards(listaMazo, modeloCarta);
+			loadCards(listaMazo, modeloCarta, modeloMazo);
 			int random = 0;
 			while (valorIni <= 20) {
 				random = (int) (Math.random() * modeloCarta.size() + 1) - 1;
@@ -83,46 +84,51 @@ public class ControllerLogic {
 
 	public void addDeck(JList<Card> listaCartas, JList<Card> listaMazo, DefaultListModel<Card> modeloMazo,
 			DefaultListModel<Card> modeloCarta, String deckName) {
-		if (!Pantalla.mazoCargado) {
-			String nombreMazo = JOptionPane.showInputDialog("Introduce el nombre del mazo");
-			if (!nombreMazo.equals("")) {
-				if (!comprobarSiExiste(nombreMazo)) {
-					List<Card> cartas = new ArrayList<Card>();
-					Deck mazo = new Deck();
-					mazo.setNombre(nombreMazo);
-					for (int j = 0; j < listaMazo.getModel().getSize(); j++) {
-						cartas.add(listaMazo.getModel().getElementAt(j));
+		if (modeloMazo.getSize() > 0) {
+			if (!Pantalla.mazoCargado) {
+				String nombreMazo = JOptionPane.showInputDialog("Introduce el nombre del mazo");
+				if (!nombreMazo.equals("")) {
+					if (!comprobarSiExiste(nombreMazo)) {
+						List<Card> cartas = new ArrayList<Card>();
+						Deck mazo = new Deck();
+						mazo.setNombre(nombreMazo);
+						for (int j = 0; j < listaMazo.getModel().getSize(); j++) {
+							cartas.add(listaMazo.getModel().getElementAt(j));
+						}
+						mazo.setDeck(cartas);
+						mazo.setValueDeck(valorIni);
+						modeloMazo.clear();
+						modeloCarta.clear();
+						loadCards(listaCartas, modeloCarta, modeloMazo);
+						mongo = DeckMongoImpl.getInstance();
+						mongo.insertDeck(mazo);
+						JOptionPane.showMessageDialog(null, "Deck " + nombreMazo + " creado correctamente");
+					} else {
+						JOptionPane.showMessageDialog(null, "Ya existe el nombre del mazo", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
-					mazo.setDeck(cartas);
-					mazo.setValueDeck(valorIni);
-					modeloMazo.clear();
-					modeloCarta.clear();
-					loadCards(listaCartas, modeloCarta);
-					mongo = DeckMongoImpl.getInstance();
-					mongo.insertDeck(mazo);
-					JOptionPane.showMessageDialog(null, "Deck " + nombreMazo + " creado correctamente");
 				} else {
-					JOptionPane.showMessageDialog(null, "Ya existe el nombre del mazo", "Error",
+					JOptionPane.showMessageDialog(null, "El nombre no puede estar en blanco", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "El nombre no puede estar en blanco", "Error",
-						JOptionPane.ERROR_MESSAGE);
+				List<Card> cartas = new ArrayList<Card>();
+				Deck mazo = new Deck();
+				mazo.setNombre(deckName);
+				for (int j = 0; j < listaMazo.getModel().getSize(); j++) {
+					cartas.add(listaMazo.getModel().getElementAt(j));
+				}
+				mazo.setDeck(cartas);
+				mazo.setValueDeck(valorIni);
+				mongo.updateDeck(mazo);
+				modeloMazo.clear();
+				loadCards(listaCartas, modeloCarta, modeloMazo);
+				JOptionPane.showMessageDialog(null, "Deck " + deckName + " actualizado correctamente");
+
 			}
 		} else {
-			List<Card> cartas = new ArrayList<Card>();
-			Deck mazo = new Deck();
-			mazo.setNombre(deckName);
-			for (int j = 0; j < listaMazo.getModel().getSize(); j++) {
-				cartas.add(listaMazo.getModel().getElementAt(j));
-			}
-			mazo.setDeck(cartas);
-			mazo.setValueDeck(valorIni);
-			mongo.updateDeck(mazo);
-			modeloMazo.clear();
-			loadCards(listaCartas, modeloCarta);
-			JOptionPane.showMessageDialog(null, "Deck " + deckName + " actualizado correctamente");
-
+			JOptionPane.showMessageDialog(null, "No has elegido ninguna carta para el mazo", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -136,18 +142,24 @@ public class ControllerLogic {
 		return true;
 	}
 
-	public void loadDeck(JList<Card> listaMazo, DefaultListModel<Card> modeloMazo, String name) {
+	public void loadDeck(JList<Card> listaCartas, JList<Card> listaMazo, DefaultListModel<Card> modeloMazo, String name,
+			DefaultListModel<Card> modeloCarta) {
 		modeloMazo.clear();
+		CardExistImpl exist = CardExistImpl.getInstance();
 		if (comprobarSiExiste(name)) {
 			mongo = DeckMongoImpl.getInstance();
 			Deck deck = mongo.getDeckByName(name);
 			for (int i = 0; i < deck.getCards().size(); i++) {
 				modeloMazo.addElement(deck.getCards().get(i));
+
 			}
+
 			listaMazo.setModel(modeloMazo);
 			valorIni = deck.getDeckValue();
 			JOptionPane.showMessageDialog(null, "Deck " + name + " cargado");
-		} else {
+		} else
+
+		{
 			JOptionPane.showMessageDialog(null, "El mazo no existe", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		;
